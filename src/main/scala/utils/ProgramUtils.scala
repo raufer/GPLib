@@ -26,11 +26,10 @@ object ProgramUtils {
 
       case Leaf(id, name, value) :: tail if !visited.contains(id) =>
         val n_args_filtered = dropWhile[Int](n_args, x => x == 1)
-        val comma = " ," * n_args_filtered.nonEmpty
-        val acc_to_pass = acc + " " + name + " )" * (n_args.length - n_args_filtered.length) + comma
+        val accumulator = "%s %s%s%s".format(acc, name, " )" * (n_args.length - n_args_filtered.length), " ," * n_args_filtered.nonEmpty)
         val arguments_to_pass = if (n_args_filtered.nonEmpty) List(n_args_filtered.head - 1) ::: n_args_filtered.tail else Nil
 
-        loop(toVisit.tail, visited ::: List(id), acc_to_pass, arguments_to_pass)
+        loop(toVisit.tail, visited ::: List(id), accumulator, arguments_to_pass)
 
 
       case Node(id, name, f, args@_*) :: tail if !visited.contains(id) =>
