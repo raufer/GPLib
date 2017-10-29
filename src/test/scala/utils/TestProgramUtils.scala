@@ -65,13 +65,23 @@ class TestProgramUtils extends FunSuite {
     val sub = (x: Double, y: Double) => x - y
     val ln = (x: Double) => Math.log(x)
 
-    val program = Node(mul, "mul", Leaf(5.0),
-      Node(mul, "mul", Leaf(5.0), Node(ln, "ln", Leaf(7.0)), Node(ln, "ln", Node(sub, "sub", Leaf(5.0), Leaf(7.0)))),
-      Node(add, "add", Leaf(5.0), Leaf(7.0), Leaf(10.0), Leaf(3.0)))
+    val program = Node(mul, "mul",
+      Leaf(5.0),
+      Node(mul, "mul",
+        Leaf(5.0),
+        Node(ln, "ln",
+          Leaf(7.0)),
+        Node(ln, "ln",
+          Node(sub, "sub",
+            Leaf(5.0),
+            Leaf(7.0)))),
+      Node(add, "add",
+        Leaf(5.0),
+        Leaf(7.0),
+        Leaf(10.0),
+        Leaf(3.0)))
 
     val repr = prettyPrint(program)
-
-    println(repr)
 
     assert(repr == "mul ( 5.0 , mul ( 5.0 , ln ( 7.0 ) , ln ( sub ( 5.0 , 7.0 ) ) ) , add ( 5.0 , 7.0 , 10.0 , 3.0 ) )")
 

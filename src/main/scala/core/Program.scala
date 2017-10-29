@@ -3,6 +3,8 @@ package gplib
 import java.util.concurrent.atomic.AtomicInteger
 import com.github.dwickern.macros.NameOf._
 
+import utils.ProgramUtils.prettyPrint
+
 /**
 ADT to model an GP individual
 
@@ -15,7 +17,7 @@ Every program define a computable result, i.e it can be resolved to a single A
 Note also that any 'Program' just holds a description of the execution. It doesn't actually know how to evaluate itself
  */
 sealed trait Program[A] {
-  override def toString() = ???
+  override def toString() = prettyPrint(this)
 }
 
 case object EmptyTree extends Program[Nothing]
