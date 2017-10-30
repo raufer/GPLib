@@ -11,6 +11,6 @@ The purpose of this library is to allow the evolution of `Programs`, which are r
 
 The user needs only to define:
 - The `Terminal Set`
-- The `Function Set
+- The `Function Set`
 
-Note that each element in the Fucntion Set can be of arbitrary arity and should be a Scala function (not method)
+Note that each element in the Function Set can be of arbitrary arity and should be a Scala function (not method)
