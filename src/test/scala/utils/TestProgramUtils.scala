@@ -36,7 +36,7 @@ class TestProgramUtils extends FunSuite {
     assert(repr2 == "f ( add ( 5.0 , 5.0 , 7.0 , 10.0 ) , 7.0 , 10.0 )")
   }
 
-  test("Any more elaborated Program should also have a suitable ! string representation for easier debug") {
+  test("Any more elaborated Program should also have a suitable string representation for easier debug") {
 
     import utils.ProgramUtils.prettyPrint
 
@@ -56,7 +56,7 @@ class TestProgramUtils extends FunSuite {
 
   }
 
-  test("Any complex Program should also have a suitable ! string representation for easier debug") {
+  test("Any complex Program should also have a suitable string representation for easier debug") {
 
     import utils.ProgramUtils.prettyPrint
 

@@ -5,6 +5,8 @@ import gplib.{Leaf, Node, Program}
 import scala.annotation.tailrec
 import Recipes.dropWhile
 
+import scala.util.Try
+
 object ProgramUtils {
 
   /**
@@ -18,6 +20,9 @@ object ProgramUtils {
     function match {
       case f: Function1[Any, Any] => f(args(0)).asInstanceOf[T]
       case f: Function2[Any, Any, Any] => f(args(0), args(1)).asInstanceOf[T]
+      case f: Function3[Any, Any, Any, Any] => f(args(0), args(1), args(2)).asInstanceOf[T]
+      case f: Function4[Any, Any, Any, Any, Any] => f(args(0), args(1), args(2), args(3)).asInstanceOf[T]
+      case f: Function5[Any, Any, Any, Any, Any, Any] => f(args(0), args(1), args(2), args(3), args(4)).asInstanceOf[T]
       case _ => args(0)
     }
   }

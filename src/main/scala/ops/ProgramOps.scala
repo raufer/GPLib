@@ -4,6 +4,7 @@ import gplib.{Leaf, Node, Program}
 import utils.ProgramUtils.call
 
 import scala.annotation.tailrec
+import scala.util.Try
 
 object ProgramOps {
 
@@ -27,8 +28,12 @@ object ProgramOps {
   Executes a 'Program' and returns the result
   The program is executed recursively starting from the Leafs all the way back to the root using DFS
   Every Program[A] should resolve to a single A
+
+  Returns a Try indicate if the evaluation of the program was successful or if some exception occurred
+  It may not be trivial to impose domain constraints when generating random individuals
+  eg.: Division by 0
    */
-  def eval[A](program: Program[A]): A = {
+  def eval[A](program: Program[A]): Try[A] = {
 
     @tailrec
     def loop(toVisit: List[Program[A]], visited: List[String], functions: List[AnyRef], arguments: List[List[A]], n_args: List[Int]): A =
@@ -49,8 +54,7 @@ object ProgramOps {
 
         case _ => arguments.flatten.head
       }
-    loop(List(program), Nil, Nil, Nil, Nil)
+    Try(loop(List(program), Nil, Nil, Nil, Nil))
   }
-
 
 }
