@@ -1,9 +1,8 @@
 package core
 
-import gplib.{Leaf, Node, Program}
+import models.{Leaf, Node}
 
-import scala.util.{Try, Success, Failure}
-
+import scala.util.{Failure, Success, Try}
 import org.scalatest.FunSuite
 import ops.ProgramOps.eval
 

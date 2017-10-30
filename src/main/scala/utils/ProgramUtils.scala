@@ -1,9 +1,8 @@
 package utils
 
-import gplib.{Leaf, Node, Program}
-
 import scala.annotation.tailrec
 import Recipes.dropWhile
+import models.Program
 
 import scala.util.Try
 

@@ -1,8 +1,7 @@
 package utils
 
+import models.{Leaf, Node}
 import org.scalatest.FunSuite
-
-import gplib.{Leaf, Node}
 
 class TestProgramUtils extends FunSuite {
 

@@ -1,6 +1,5 @@
-package core
+package models
 
-import gplib.{Leaf, Program, Node}
 import org.scalatest.FunSuite
 
 class TestProgramADT extends FunSuite {

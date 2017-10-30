@@ -1,8 +1,8 @@
-package gplib
+package models
 
 import java.util.concurrent.atomic.AtomicInteger
-import com.github.dwickern.macros.NameOf._
 
+import com.github.dwickern.macros.NameOf._
 import utils.ProgramUtils.prettyPrint
 
 /**

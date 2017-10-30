@@ -1,6 +1,6 @@
 package ops
 
-import gplib.{Leaf, Node, Program}
+import models.Program
 import utils.ProgramUtils.call
 
 import scala.annotation.tailrec
