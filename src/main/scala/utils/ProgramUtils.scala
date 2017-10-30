@@ -8,6 +8,21 @@ import Recipes.dropWhile
 object ProgramUtils {
 
   /**
+  "Abstract" over arity
+  Scala does not provide a base `function` type. Each arity results in an independent type
+
+  Pattern matches on the type and calls with the respective number of arguments
+  caution: the type system is lost here, returns a 'Any'
+   */
+  def call[T](function: AnyRef, args: Seq[T]): T = {
+    function match {
+      case f: Function1[Any, Any] => f(args(0)).asInstanceOf[T]
+      case f: Function2[Any, Any, Any] => f(args(0), args(1)).asInstanceOf[T]
+      case _ => args(0)
+    }
+  }
+
+  /**
   Implicit conversion from Boolean to Int
   Useful in string operations, eg: "string" * Boolean => {"string" if True else "}
    */
@@ -19,7 +34,7 @@ object ProgramUtils {
     val program = Node(add, "add", Node(mul, "mul", a, Node(ln, "ln", b)), c)
     prettyPrint(program) => ' add ( mul ( 5.0 , ln ( 7.0 ) ) , 10.0 ) '
    */
-  def prettyPrint[A](tree: Program[A]): String = {
+  def prettyPrint[A](program: Program[A]): String = {
 
     @tailrec
     def loop(toVisit: List[Program[A]], visited: List[String] = Nil, acc: String = "", n_args: List[Int] = Nil): String = toVisit match {
@@ -39,7 +54,7 @@ object ProgramUtils {
         acc.trim
     }
 
-    loop(List(tree))
+    loop(List(program))
   }
 
 }
