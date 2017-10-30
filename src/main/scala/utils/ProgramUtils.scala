@@ -2,9 +2,8 @@ package utils
 
 import scala.annotation.tailrec
 import Recipes.dropWhile
-import models.Program
+import models.{Program, Node, Leaf}
 
-import scala.util.Try
 
 object ProgramUtils {
 

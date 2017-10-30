@@ -1,6 +1,6 @@
 package ops
 
-import models.Program
+import models.{Leaf, Node, Program}
 import utils.ProgramUtils.call
 
 import scala.annotation.tailrec
