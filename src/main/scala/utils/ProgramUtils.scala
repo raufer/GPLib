@@ -42,9 +42,9 @@ object ProgramUtils {
     @tailrec
     def loop(toVisit: List[Program[A]], visited: List[String] = Nil, acc: String = "", n_args: List[Int] = Nil): String = toVisit match {
 
-      case Leaf(id, name, value) :: tail if !visited.contains(id) =>
+      case Leaf(id, terminal) :: tail if !visited.contains(id) =>
         val n_args_filtered = dropWhile[Int](n_args, x => x == 1)
-        val accumulator = "%s %s%s%s".format(acc, name, " )" * (n_args.length - n_args_filtered.length), " ," * n_args_filtered.nonEmpty)
+        val accumulator = "%s %s%s%s".format(acc, terminal.name, " )" * (n_args.length - n_args_filtered.length), " ," * n_args_filtered.nonEmpty)
         val arguments_to_pass = if (n_args_filtered.nonEmpty) List(n_args_filtered.head - 1) ::: n_args_filtered.tail else Nil
 
         loop(toVisit.tail, visited ::: List(id), accumulator, arguments_to_pass)

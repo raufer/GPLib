@@ -22,7 +22,7 @@ sealed trait Program[A] {
 
 case object EmptyTree extends Program[Nothing]
 
-case class Leaf[A](id: String, name: String, value: A) extends Program[A]
+case class Leaf[A](id: String, terminal: Terminal[A]) extends Program[A]
 
 case class Node[A](id: String, name: String, f: AnyRef, branches: Program[A]*) extends Program[A]
 
@@ -30,14 +30,9 @@ case class Node[A](id: String, name: String, f: AnyRef, branches: Program[A]*) e
 object Leaf {
   val counter = new AtomicInteger(0)
 
-  def apply[A](value: A) = {
+  def apply[A](value: Terminal[A]) = {
     val id = "Leaf [%d]".format(Leaf.counter.incrementAndGet())
-    new Leaf(id, value.toString, value)
-  }
-
-  def apply[A](value: A, name: String) = {
-    val id = "Leaf [%d]".format(Leaf.counter.incrementAndGet())
-    new Leaf(id, name, value)
+    new Leaf(id, value)
   }
 }
 

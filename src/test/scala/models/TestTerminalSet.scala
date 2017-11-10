@@ -11,7 +11,7 @@ class TestTerminalSet extends FunSuite with Matchers {
     val b = Constant(1)
     val c = Constant(1)
 
-    val x = Variable[Int]("x")
+    val x = Variable[Int](1, "x")
 
     val ts = TerminalSet(a, x)
   }
@@ -22,7 +22,7 @@ class TestTerminalSet extends FunSuite with Matchers {
     val b = Constant(2)
     val c = Constant(3)
 
-    val x = Variable[Int]("x")
+    val x = Variable[Int](1, "x")
 
     val ts = TerminalSet(a, b, c, x)
 

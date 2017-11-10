@@ -40,10 +40,10 @@ object ProgramOps {
 
       toVisit match {
 
-        case Leaf(id, name, value) :: tail if !visited.contains(id) => {
+        case Leaf(id, terminal) :: tail if !visited.contains(id) => {
 
           val (functions_in_stack, args_in_stack, n_args_in_stack) =
-            evaluateWhile[A](functions, arguments, n_args, x => x == 1, value)
+            evaluateWhile[A](functions, arguments, n_args, x => x == 1, terminal.value)
 
           loop(toVisit.tail, visited ::: List(id), functions_in_stack, args_in_stack, n_args_in_stack)
         }

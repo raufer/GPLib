@@ -9,30 +9,30 @@ class TestProgramADT extends FunSuite {
   }
 
   test("It should be possible to create a program just with a Leaf node whose value is constant") {
-    val program = Leaf(5.0)
+    val program = Leaf(Constant(5.0))
     assert(program.isInstanceOf[Leaf[Double]])
   }
 
   test("A simple 'Leaf' element should be able to hold any type of value") {
     case class Person(name: String)
 
-    val terminal = Leaf(Person("John"))
-    assert(terminal.isInstanceOf[Leaf[Person]])
+    val terminal = Leaf(Constant(Person("John")))
+    assert(terminal.isInstanceOf[Leaf[Constant[Person]]])
   }
 
   test("A 'Leaf' element can have a custom name or take as default the value string representation") {
-    val terminal = Leaf(5.0, name = "custom name")
-    assert(terminal.name == "custom name")
+    val leaf = Leaf(Constant(5, "custom name"))
+    assert(leaf.terminal.name == "custom name")
 
-    val terminal2 = Leaf(5.0)
-    assert(terminal2.name == "5.0")
+    val leaf2 = Leaf(Constant(5.0))
+    assert(leaf2.terminal.name == "5.0")
   }
 
   test("A 'Node' element should hold behaviour and accept other 'Programs' as input") {
     val add = (x: Double, y: Double) => x + y
 
-    val a = Leaf(5.0)
-    val b = Leaf(7.0)
+    val a = Leaf(Constant(5.0))
+    val b = Leaf(Constant(7.0))
 
     val node = Node(add, a, b)
     assert(node.isInstanceOf[Node[Double]])
@@ -40,7 +40,7 @@ class TestProgramADT extends FunSuite {
 
   test("It should be possible to create a program that represents a function with a single argument") {
     val ln = (x: Double) => Math.log(x)
-    val program = Node(ln, Leaf(10.0))
+    val program = Node(ln, Leaf(Constant(10.0)))
     assert(program.isInstanceOf[Node[Double]])
   }
 
@@ -55,9 +55,9 @@ class TestProgramADT extends FunSuite {
     val mul = (x: Double, y: Double) => x * y
     val ln = (x: Double) => Math.log(x)
 
-    val a = Leaf(5.0)
-    val b = Leaf(7.0)
-    val c = Leaf(10.0)
+    val a = Leaf(Constant(5.0))
+    val b = Leaf(Constant(7.0))
+    val c = Leaf(Constant(10.0))
 
     val program = Node(add, Node(mul, a, Node(ln, b)), c)
 
@@ -69,9 +69,9 @@ class TestProgramADT extends FunSuite {
     val mul = (x: Double, y: Double) => x * y
     val ln = (x: Double) => Math.log(x)
 
-    val a = Leaf(5.0)
-    val b = Leaf(7.0)
-    val c = Leaf(10.0)
+    val a = Leaf(Constant(5.0))
+    val b = Leaf(Constant(7.0))
+    val c = Leaf(Constant(10.0))
 
     val program1 = Node(ln, a)
     val program2 = Node(add, a, b)
