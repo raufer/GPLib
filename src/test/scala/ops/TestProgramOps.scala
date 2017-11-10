@@ -1,5 +1,3 @@
-package core
-
 import models.{Leaf, Node}
 
 import scala.util.{Failure, Success, Try}
