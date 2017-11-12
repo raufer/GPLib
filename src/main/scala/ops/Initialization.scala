@@ -1,7 +1,0 @@
-package ops
-
-object Initialization {
-
-
-
-}
