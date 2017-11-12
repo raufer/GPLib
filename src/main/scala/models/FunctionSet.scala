@@ -1,8 +1,8 @@
 package models
 
-case class Function(f: AnyRef, name: String)
-
 case class FunctionSet(functions: List[Function]) {
+
+  val size = functions.size
 
   val names: List[String] = functions.map(f => f.name)
 
@@ -10,16 +10,6 @@ case class FunctionSet(functions: List[Function]) {
 
 object FunctionSet {
 
-  def apply(args: AnyRef*) = {
+  def apply[T](args: Function*) = new FunctionSet(args.toList)
 
-    val functions = List(args: _*).zipWithIndex map { x =>
-        x._1 match {
-          case Tuple2(f: AnyRef, s: String) => Function(f, s)
-          case f => Function(f, "function" + x._2.toString)
-        }
-    }
-
-    new FunctionSet(functions)
-
-  }
 }
