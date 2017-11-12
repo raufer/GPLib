@@ -29,7 +29,7 @@ class TestProgramADT extends FunSuite {
   }
 
   test("A 'Node' element should hold behaviour and accept other 'Programs' as input") {
-    val add = (x: Double, y: Double) => x + y
+    val add = Function((x: Double, y: Double) => x + y)
 
     val a = Leaf(Constant(5.0))
     val b = Leaf(Constant(7.0))
@@ -39,21 +39,21 @@ class TestProgramADT extends FunSuite {
   }
 
   test("It should be possible to create a program that represents a function with a single argument") {
-    val ln = (x: Double) => Math.log(x)
+    val ln = Function((x: Double) => Math.log(x))
     val program = Node(ln, Leaf(Constant(10.0)))
     assert(program.isInstanceOf[Node[Double]])
   }
 
   test("It should be possible to create a 'initializer' node going from '() => A'") {
-    val init = () => 10.0
+    val init = Function(() => 10.0)
     val program = Node(init)
   }
 
   test("We should be able to create nested Programs by nesting them") {
 
-    val add = (x: Double, y: Double) => x + y
-    val mul = (x: Double, y: Double) => x * y
-    val ln = (x: Double) => Math.log(x)
+    val add = Function((x: Double, y: Double) => x + y)
+    val mul = Function((x: Double, y: Double) => x * y)
+    val ln = Function((x: Double) => Math.log(x))
 
     val a = Leaf(Constant(5.0))
     val b = Leaf(Constant(7.0))
@@ -65,9 +65,9 @@ class TestProgramADT extends FunSuite {
 
   test("Every node of a program should have a unique ID") {
 
-    val add = (x: Double, y: Double) => x + y
-    val mul = (x: Double, y: Double) => x * y
-    val ln = (x: Double) => Math.log(x)
+    val add = Function((x: Double, y: Double) => x + y)
+    val mul = Function((x: Double, y: Double) => x * y)
+    val ln = Function((x: Double) => Math.log(x))
 
     val a = Leaf(Constant(5.0))
     val b = Leaf(Constant(7.0))

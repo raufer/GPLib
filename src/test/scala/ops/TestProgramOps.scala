@@ -1,4 +1,4 @@
-import models.{Leaf, Node, Constant}
+import models.{Leaf, Node, Constant, Function}
 
 import scala.util.{Failure, Success, Try}
 import org.scalatest.FunSuite
@@ -7,7 +7,7 @@ import ops.ProgramOps.eval
 class TestProgramOps extends FunSuite {
 
   test("The evalutaion of syntactally correct program with no domain violations should result in a successful evaluation") {
-    val program = Node((x:Double, y:Double) => x / y, Leaf(Constant(5.0)), Leaf(Constant(11.0)))
+    val program = Node(Function((x: Double, y: Double) => x / y), Leaf(Constant(5.0)), Leaf(Constant(11.0)))
     val result = eval(program)
     assert(result.isInstanceOf[Success[Double]])
   }
@@ -20,15 +20,15 @@ class TestProgramOps extends FunSuite {
   }
 
   test("A Program representing the 'addition' function over the type 'Double' should be executable") {
-    val program = Node((x:Double, y:Double) => x + y, Leaf(Constant(5.0)), Leaf(Constant(11.0)))
+    val program = Node(Function((x:Double, y:Double) => x + y), Leaf(Constant(5.0)), Leaf(Constant(11.0)))
     val result = eval(program)
     assert(result == Success(16.0))
   }
 
   test("We should be able to execute a nested program and obtain a correct result: 01") {
-    val add = (x: Double, y: Double) => x + y
-    val mul = (x: Double, y: Double) => x * y
-    val ln = (x: Double) => Math.log(x)
+    val add = Function((x: Double, y: Double) => x + y)
+    val mul = Function((x: Double, y: Double) => x * y)
+    val ln = Function((x: Double) => Math.log(x))
 
     val a = Leaf(Constant(5.0))
     val b = Leaf(Constant(1.0))
@@ -40,7 +40,7 @@ class TestProgramOps extends FunSuite {
   }
 
   test("We should be able to execute a nested program and obtain a correct result: 02") {
-    val add = (x: Double, y: Double, z: Double, w: Double) => x + y + z + w
+    val add = Function((x: Double, y: Double, z: Double, w: Double) => x + y + z + w)
 
     val program = Node(add, Leaf(Constant(5.0)), Leaf(Constant(7.0)), Leaf(Constant(10.0)), Leaf(Constant(3.0)))
     val result = eval(program)
@@ -48,22 +48,22 @@ class TestProgramOps extends FunSuite {
   }
 
   test("We should be able to execute a nested program and obtain a correct result: 03") {
-    val add = (x: Double, y: Double, z: Double, w: Double) => x + y + z + w
-    val mul = (x: Double, y: Double, z: Double) => x * y * z
-    val sub = (x: Double, y: Double) => x - y
-    val ln = (x: Double) => Math.log(x)
+    val add = Function((x: Double, y: Double, z: Double, w: Double) => x + y + z + w)
+    val mul = Function((x: Double, y: Double, z: Double) => x * y * z)
+    val sub = Function((x: Double, y: Double) => x - y)
+    val ln = Function((x: Double) => Math.log(x))
 
-    val program = Node(mul, "mul",
+    val program = Node(mul,
       Leaf(Constant(5.0)),
-      Node(mul, "mul",
+      Node(mul,
         Leaf(Constant(5.0)),
-        Node(ln, "ln",
+        Node(ln,
           Leaf(Constant(7.0))),
-        Node(ln, "ln",
-          Node(sub, "sub",
+        Node(ln,
+          Node(sub,
             Leaf(Constant(7.0)),
             Leaf(Constant(5.0))))),
-      Node(add, "add",
+      Node(add,
         Leaf(Constant(5.0)),
         Leaf(Constant(7.0)),
         Leaf(Constant(10.0)),
@@ -74,7 +74,7 @@ class TestProgramOps extends FunSuite {
   }
 
   test("We should be able to execute a nested program and obtain a correct result: 04") {
-    val div = (x: Double, y: Double) => x / y
+    val div = Function((x: Double, y: Double) => x / y)
 
     val program = Node(div, Leaf(Constant(5.0)), Leaf(Constant(0.0)))
 
@@ -84,8 +84,8 @@ class TestProgramOps extends FunSuite {
 
   test("A syntactically wrong program should result in a failure") {
 
-    val add = (x: Double, y: Double, z: Double) => x + y
-    val mul = (x: Double, y: Double, z: Double) => x
+    val add = Function((x: Double, y: Double, z: Double) => x + y)
+    val mul = Function((x: Double, y: Double, z: Double) => x)
 
     val program = Node(add, Node(mul, Leaf(Constant(5.0)), Leaf(Constant(10.0))), Leaf(Constant(3.8)))
 

@@ -2,10 +2,12 @@ package models
 
 import java.util.concurrent.atomic.AtomicInteger
 
-import com.github.dwickern.macros.NameOf._
 import utils.ProgramUtils.prettyPrint
 
 /**
+In GP, programs are usually expressed as syntax trees rather than as lines of code.
+In some cases, it may be desirable to use GP primitives which accept a variable number of arguments (a quantity we will call arity).
+
 ADT to model an GP individual
 
 This type can either be a 'Leaf' which just holds data (an A)
@@ -16,15 +18,19 @@ Every program define a computable result, i.e it can be resolved to a single A
 
 Note also that any 'Program' just holds a description of the execution. It doesn't actually know how to evaluate itself
  */
-sealed trait Program[A] {
+sealed trait Program[+A] {
   override def toString() = prettyPrint(this)
 }
 
-case object EmptyTree extends Program[Nothing]
+/**
+A zygote (from Greek ζυγωτός zygōtos "joined" or "yoked", from ζυγοῦν zygoun "to join" or "to yoke")
+is a cell formed by a fertilization event between two gametes. A single cell in day 0
+ */
+case object Zygote extends Program[Nothing]
 
 case class Leaf[A](id: String, terminal: Terminal[A]) extends Program[A]
 
-case class Node[A](id: String, name: String, f: AnyRef, branches: Program[A]*) extends Program[A]
+case class Node[A](id: String, f: Function, branches: Program[A]*) extends Program[A]
 
 
 object Leaf {
@@ -39,14 +45,9 @@ object Leaf {
 object Node {
   val counter = new AtomicInteger(0)
 
-  def apply[A](f: AnyRef, branches: Program[A]*) = {
+  def apply[A](f: Function, branches: Program[A]*) = {
     val id = "Node [%d]".format(Node.counter.incrementAndGet())
-    new Node(id, nameOf(f), f, branches:_*)
+    new Node(id, f, branches:_*)
   }
 
-  def apply[A](f: AnyRef, name: String, branches: Program[A]*) = {
-    val id = "Node [%d]".format(Node.counter.incrementAndGet())
-    new Node(id, name, f, branches: _*)
-  }
-
-  }
+}

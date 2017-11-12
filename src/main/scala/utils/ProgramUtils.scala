@@ -2,7 +2,7 @@ package utils
 
 import scala.annotation.tailrec
 import Recipes.dropWhile
-import models.{Program, Node, Leaf}
+import models.{Zygote, Leaf, Node, Program}
 
 
 object ProgramUtils {
@@ -50,14 +50,47 @@ object ProgramUtils {
         loop(toVisit.tail, visited ::: List(id), accumulator, arguments_to_pass)
 
 
-      case Node(id, name, f, args@_*) :: tail if !visited.contains(id) =>
-        loop(args.toList ::: toVisit.tail, visited ::: List(id), acc + " " + name + " (", List(args.length) ::: n_args)
+      case Node(id, f, args@_*) :: tail if !visited.contains(id) =>
+        loop(args.toList ::: toVisit.tail, visited ::: List(id), acc + " " + f.name + " (", List(args.length) ::: n_args)
 
-      case _ =>
-        acc.trim
+      case _ => acc.trim
     }
 
     loop(List(program))
+  }
+
+
+  /**
+  Recursively traverse a program and keep track of the the deeper leaf
+   */
+
+  def maxDepth[T](program: Program[T], acc: Int = 0): Int = {
+    program match {
+      case Leaf(id, terminal) => acc + 1
+      case Node(id, f, args@_*) => args.toList.map(b => maxDepth(b, acc + 1)).max
+      case Zygote => 0
+    }
+  }
+
+  /**
+  Same but return the depth of the closest leaf to the root
+    */
+
+  def minDepth[T](program: Program[T], acc: Int = 0): Int = {
+    program match {
+      case Leaf(id, terminal) => acc + 1
+      case Node(id, f, args@_*) => args.toList.map(b => minDepth(b, acc + 1)).min
+      case Zygote => 0
+    }
+  }
+
+  /**
+  Get the arity of a given 'function'
+  Currently this is the mechanism in place to abstract over arity
+    */
+  def arity_of(f: AnyRef): Option[Int] = {
+    val apply = f.getClass.getMethods.find(_.getName == "apply")
+    apply.map(_.getParameterCount)
   }
 
 }
