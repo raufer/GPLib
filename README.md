@@ -1,5 +1,7 @@
 # GPLib
-Genetic Programming Library in scala ( In progress ...)
+Genetic Programming Library in scala 
+
+( In progress ...)
 
 [![Build Status](https://travis-ci.org/raufer/GPLib.svg?branch=master)](https://travis-ci.org/raufer/GPLib)
 
