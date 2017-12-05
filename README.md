@@ -14,5 +14,3 @@ The purpose of this library is to allow the evolution of `Programs` to states th
 The user needs only to define:
 - The `Terminal Set`
 - The `Function Set`
-
-Note that each element in the Function Set can be of arbitrary arity and should be a Scala function (not method)
